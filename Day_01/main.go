@@ -49,8 +49,13 @@ func readTextFile(filepath string) ([]int, []int) {
 }
 
 func sumDifs(leftList []int, rightList []int) int {
+	var dif int
 	for i := 0; i < len(leftList); i++ {
-		dif := rightList[i] - leftList[i]
+		if leftList[i] > rightList[i] {
+			dif = leftList[i] - rightList[i]
+		} else {
+			dif = rightList[i] - leftList[i]
+		}
 		difs = difs + dif
 	}
 	return difs
