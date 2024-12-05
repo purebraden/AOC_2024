@@ -46,13 +46,16 @@ func searchFrom(grid [][]string, row, col int, word string) (bool, int) {
 			if foundX := searchDirection(grid, row+2, col, word, []int{-1, 1}); foundX {
 				count++
 			}
+			if foundY := searchDirection(grid, row, col+2, word, []int{-1, -1}); foundY {
+				count++
+			}
+		}
+
+		if count > 0 {
+			return true, count
 		}
 	}
-	if count > 0 {
-		return true, count
-	} else {
-		return false, 0
-	}
+	return false, 0
 }
 
 func searchDirection(grid [][]string, row, col int, word string, dir []int) bool {
