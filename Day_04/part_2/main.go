@@ -11,10 +11,10 @@ var directions = [][]int{
 	//	{1, 0},   // Down
 	//	{0, -1},  // Left
 	//	{0, 1},   // Right
-	//	{-1, -1}, // Diagonal Up-Left
-	{-1, 1}, // Diagonal Up-Right
-	//	{1, -1},  // Diagonal Down-Left
-	{1, 1}, // Diagonal Down-Right
+	{-1, -1}, // Diagonal Up-Left
+	{-1, 1},  // Diagonal Up-Right
+	{1, -1},  // Diagonal Down-Left
+	{1, 1},   // Diagonal Down-Right
 }
 
 type Puzzle struct {
@@ -41,7 +41,41 @@ func findWords(puzzle Puzzle) ([]string, int) {
 func searchFrom(grid [][]string, row, col int, word string) (bool, int) {
 	// Check in all 8 directions
 	count := 0
-	for _, dir := range directions {
+
+	if found := searchDirection(grid, row, col, word, []int{1, 1}); found {
+		if foundY := searchDirection(grid, row, col+2, word, []int{1, -1}); foundY {
+			count++
+			return true, count
+		}
+
+	}
+	if found := searchDirection(grid, row, col, word, []int{1, 1}); found {
+
+		if foundX := searchDirection(grid, row+2, col, word, []int{-1, 1}); foundX {
+			count++
+			return true, count
+		}
+	}
+
+	if found := searchDirection(grid, row, col, word, []int{1, -1}); found {
+		if foundY2 := searchDirection(grid, row+2, col, word, []int{-1, -1}); foundY2 {
+			count++
+			return true, count
+		}
+	}
+
+	if found := searchDirection(grid, row, col, word, []int{1, -1}); found {
+		if foundX2 := searchDirection(grid, row, col+2, word, []int{-1, -1}); foundX2 {
+			count++
+			return true, count
+		}
+	}
+
+	/* 	if count > 0 {
+		return true, count
+	} */
+
+	/* 	for _, dir := range directions {
 		if found := searchDirection(grid, row, col, word, dir); found {
 			if foundX := searchDirection(grid, row+2, col, word, []int{-1, 1}); foundX {
 				count++
@@ -52,13 +86,16 @@ func searchFrom(grid [][]string, row, col int, word string) (bool, int) {
 			if foundX2 := searchDirection(grid, row, col+2, word, []int{-1, -1}); foundX2 {
 				count++
 			}
+			if foundY2 := searchDirection(grid, row+2, col, word, []int{-1, -1}); foundY2 {
+				count++
+			}
 
 		}
 
 		if count > 0 {
 			return true, count
 		}
-	}
+	} */
 	return false, 0
 }
 
