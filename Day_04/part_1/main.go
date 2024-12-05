@@ -22,28 +22,35 @@ type Puzzle struct {
 	Words []string
 }
 
-func findWords(puzzle Puzzle) []string {
+func findWords(puzzle Puzzle) ([]string, int) {
 	var foundWords []string
+	var foundCount int
 	for _, word := range puzzle.Words {
 		for i := 0; i < len(puzzle.Grid); i++ {
 			for j := 0; j < len(puzzle.Grid[i]); j++ {
-				if searchFrom(puzzle.Grid, i, j, word) {
+				if found, count := searchFrom(puzzle.Grid, i, j, word); found {
 					foundWords = append(foundWords, word)
+					foundCount = foundCount + count
 				}
 			}
 		}
 	}
-	return foundWords
+	return foundWords, foundCount
 }
 
-func searchFrom(grid [][]string, row, col int, word string) bool {
+func searchFrom(grid [][]string, row, col int, word string) (bool, int) {
 	// Check in all 8 directions
+	count := 0
 	for _, dir := range directions {
-		if searchDirection(grid, row, col, word, dir) {
-			return true
+		if found := searchDirection(grid, row, col, word, dir); found {
+			count++
 		}
 	}
-	return false
+	if count > 0 {
+		return true, count
+	} else {
+		return false, 0
+	}
 }
 
 func searchDirection(grid [][]string, row, col int, word string, dir []int) bool {
@@ -112,10 +119,10 @@ func main() {
 		Words: []string{"XMAS"},
 	}
 
-	foundWords := findWords(puzzle)
+	foundWords, foundCount := findWords(puzzle)
 	for _, word := range foundWords {
 		fmt.Println(word)
 	}
-	fmt.Printf("Found %d words\n", len(foundWords))
+	fmt.Printf("Found %d words\n", foundCount)
 
 }
