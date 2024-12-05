@@ -7,14 +7,14 @@ import (
 )
 
 var directions = [][]int{
-	{-1, 0},  // Up
-	{1, 0},   // Down
-	{0, -1},  // Left
-	{0, 1},   // Right
-	{-1, -1}, // Diagonal Up-Left
-	{-1, 1},  // Diagonal Up-Right
-	{1, -1},  // Diagonal Down-Left
-	{1, 1},   // Diagonal Down-Right
+	//	{-1, 0},  // Up
+	//	{1, 0},   // Down
+	//	{0, -1},  // Left
+	//	{0, 1},   // Right
+	//	{-1, -1}, // Diagonal Up-Left
+	{-1, 1}, // Diagonal Up-Right
+	//	{1, -1},  // Diagonal Down-Left
+	{1, 1}, // Diagonal Down-Right
 }
 
 type Puzzle struct {
@@ -46,9 +46,13 @@ func searchFrom(grid [][]string, row, col int, word string) (bool, int) {
 			if foundX := searchDirection(grid, row+2, col, word, []int{-1, 1}); foundX {
 				count++
 			}
-			if foundY := searchDirection(grid, row, col+2, word, []int{-1, -1}); foundY {
+			if foundY := searchDirection(grid, row, col+2, word, []int{1, -1}); foundY {
 				count++
 			}
+			if foundX2 := searchDirection(grid, row, col+2, word, []int{-1, -1}); foundX2 {
+				count++
+			}
+
 		}
 
 		if count > 0 {
